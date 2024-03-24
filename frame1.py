@@ -79,6 +79,9 @@ green_button_y = 430
 black_button_x = 70
 black_button_y = 367
 
+# Define pressure levels and their positions
+pressure_levels = {305: 50, 345: 40, 380: 30, 415: 20, 450: 10}
+
 # Initialize dragging flag
 lever_dragging = False
 pressure_lever_dragging = False
@@ -123,12 +126,6 @@ while running:
                 lever_x = mouse_x - offset_x
                 # Limit lever position within specified range
                 lever_x = max(50, min(lever_x, 215 - lever_width))
-            if pressure_lever_dragging:
-                _, mouse_y = pygame.mouse.get_pos()
-                # Update pressure lever position based on mouse movement in y-axis only
-                pressure_lever_y = mouse_y - pressure_offset_y
-                # Limit pressure lever position within specified range
-                pressure_lever_y = max(305, min(pressure_lever_y, 450))
 
     # Draw the frame image onto the screen
     screen.blit(frame_image, (0, 0))
@@ -139,8 +136,22 @@ while running:
     # Draw the spaceship
     screen.blit(spaceship, (spaceship_x, spaceship_y))
 
+    # Update pressure lever position if dragging
+    if pressure_lever_dragging:
+        _, mouse_y = pygame.mouse.get_pos()
+        # Update pressure lever position based on mouse movement in y-axis only
+        pressure_lever_y = mouse_y - pressure_offset_y
+        # Limit pressure lever position within specified range
+        pressure_lever_y = max(305, min(pressure_lever_y, 450))
+
     # Draw the pressure lever
     screen.blit(pressure_lever, (pressure_lever_x, pressure_lever_y))
+
+    # Check if pressure lever position aligns with a pressure level
+    for level_pos, level_value in pressure_levels.items():
+        if abs(pressure_lever_y - level_pos) <= 5:  # Threshold for alignment
+            print(f"Pressure lever at {level_value}")
+            break
 
     # Update the display
     pygame.display.flip()
