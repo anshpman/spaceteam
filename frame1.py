@@ -54,7 +54,7 @@ lever_y = 265
 lever_x = 180  # Set the initial x-coordinate of the lever (40 to 180)
 
 # Define button dimensions and colors
-red_button_width = 60
+red_button_width = 60  # ventillation, lock/unlock buttons. made them invisible.
 red_button_height = 30
 
 blue_button_width = 60
